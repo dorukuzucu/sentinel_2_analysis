@@ -8,4 +8,4 @@ PROJECT_PATH = Path(__file__).parents[2]
 RELATIVE_DATASET_PATH = os.environ.get("DATASET_PATH", "dataset")
 ABSOLUTE_DATASET_PATH = os.path.join(PROJECT_PATH, RELATIVE_DATASET_PATH)
 
-ANALYSIS_WORKERS = int(os.environ.get("ANALYSIS_WORKERS", "6"))
+ANALYSIS_WORKERS = int(os.environ.get("ANALYSIS_WORKERS", "16"))

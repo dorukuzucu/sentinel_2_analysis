@@ -41,12 +41,12 @@ class ProcessBasedExecutor(ExecutorBase):
     """Executes an analysis on a dataset using Process based paralellism"""
     _workers: int
 
-    def __init__(self, analysis: Analysis, dataset: Iterable, num_workers: int = 6) -> None:
+    def __init__(self, analysis: Analysis, dataset: Iterable, num_workers: int = ANALYSIS_WORKERS) -> None:
         super().__init__(analysis, dataset)
         self._workers = num_workers
 
     def execute(self):
-        with concurrent.futures.ProcessPoolExecutor(16) as executor:
+        with concurrent.futures.ProcessPoolExecutor(self._workers) as executor:
             executor.map(self._analyze_image, self._dataset)
 
 
