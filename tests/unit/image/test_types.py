@@ -35,7 +35,7 @@ class RasterImageTest(unittest.TestCase):
         np_array = self.raster_image.array()
 
         self.assertTupleEqual((len(indexes), size, size), np_array.shape)
-        
+
         for idx in indexes:
             self.assertTrue(call(idx) in self.raster_image.raster_data.read.call_args_list)
 
@@ -48,6 +48,6 @@ class RasterImageTest(unittest.TestCase):
         np_array = self.raster_image.array()
 
         self.assertTupleEqual((len(indexes), size, size), np_array.shape)
-        
+
         for idx in indexes:
             self.assertTrue(call(idx) in self.raster_image.raster_data.read.call_args_list)

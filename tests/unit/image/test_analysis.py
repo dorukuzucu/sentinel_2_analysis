@@ -4,7 +4,7 @@ import unittest
 from typing import Optional
 from unittest.mock import Mock
 
-from raster_analysis_service.image.analysis import Analysis, AnalysisType, get_analysis, MeanValueAnalysis
+from raster_analysis_service.image.analysis import AnalysisType, get_analysis, MeanValueAnalysis
 
 
 class MeanValueAnalysisTest(unittest.TestCase):
@@ -52,4 +52,4 @@ class GetAnalysisTest(unittest.TestCase):
 
     def test_invalid_value_raises_value_error(self):
         with self.assertRaises(ValueError):
-            analysis = get_analysis("ERROR")
+            get_analysis("ERROR")

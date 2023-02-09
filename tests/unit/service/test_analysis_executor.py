@@ -1,10 +1,8 @@
-import os
 from typing import Optional
 import unittest
-from unittest.mock import Mock, call, patch
+from unittest.mock import Mock, call
 
 from raster_analysis_service.service.analysis_executor import ProcessBasedExecutor, SequentialExecutor, get_executor_type
-from raster_analysis_service.utils.constants import ANALYSIS_WORKERS
 
 
 class GetExecutorTypeTest(unittest.TestCase):

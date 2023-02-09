@@ -1,6 +1,6 @@
 import unittest
 from typing import Optional
-from unittest.mock import Mock, call, patch
+from unittest.mock import patch
 
 from raster_analysis_service.service.analyze_service import AnalyzeService
 from raster_analysis_service.image.analysis import AnalysisType
