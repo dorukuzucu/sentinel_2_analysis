@@ -1,6 +1,8 @@
 INTERSECTS?=scripts/mosel.json
 SEARCH_URL?=https://earth-search.aws.element84.com/v0
 
+DOCKER_IMAGE_NAME?=raster_analysis_service
+
 install:
 	python -m pip install -r requirements.txt
 
@@ -15,3 +17,9 @@ local_run:
 
 local_test:
 	sh scripts/local_test.sh
+
+docker:
+	docker build --tag $(DOCKER_IMAGE_NAME) .
+
+docker_run:
+	docker run -p8000:8000 $(DOCKER_IMAGE_NAME) 
