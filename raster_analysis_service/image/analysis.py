@@ -3,7 +3,7 @@ import enum
 import logging
 
 from abc import ABC, abstractmethod
-from multiprocessing import Value
+from multiprocessing import Manager
 from typing import Any, Dict, Union
 
 import numpy as np
@@ -11,6 +11,7 @@ from .types import RasterImage
 
 
 LOGGER = logging.getLogger("Analysis")
+manager = Manager()
 
 
 class Analysis(ABC):
@@ -34,12 +35,12 @@ class Analysis(ABC):
 class MeanValueAnalysis(Analysis):
     """A class to calculate running mean of all pixel values within an image
     """
-    pixel_count: Value
-    average_mean: Value
+    pixel_count: manager.Value
+    average_mean: manager.Value
 
     def __init__(self) -> None:
-        self.pixel_count = Value(ctypes.c_double, 0.0)
-        self.average_mean = Value(ctypes.c_double, 0.0)
+        self.pixel_count = manager.Value(ctypes.c_double, 0.0)
+        self.average_mean = manager.Value(ctypes.c_double, 0.0)
 
     def add(self, raster_image: RasterImage) -> None:
         image_array = raster_image.array() 

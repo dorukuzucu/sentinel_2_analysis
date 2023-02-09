@@ -21,12 +21,12 @@ class AnalyzeServiceTest(unittest.TestCase):
         for supported_operation in supported_operations:
             AnalysisType[supported_operation]
 
+    @patch("raster_analysis_service.service.analyze_service.get_executor_type")
     @patch("raster_analysis_service.service.analyze_service.create_tif_dataset")
-    def test_analyze(self, mock_create_dataset):
+    def test_analyze(self, mock_create_dataset, mock_get_executor_type):
         paths = ["PATH1", "PATH2"]
         mock_create_dataset.return_value = paths
-        self.service._analyze_image = Mock()
 
         self.service.analyze(AnalysisType.MEAN_VALUE)
-        for p in paths:
-            self.assertTrue(call(p) in self.service._analyze_image.call_args_list)
+        mock_get_executor_type.return_value.assert_called_once()
+        mock_get_executor_type.return_value.return_value.execute.assert_called_once()
