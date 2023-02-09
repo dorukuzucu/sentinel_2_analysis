@@ -13,7 +13,7 @@ unit_tests:
 	python -m unittest discover tests/unit
 
 local_run:
-	 uvicorn raster_analysis_service.app:app
+	 uvicorn raster_analysis_service.app:app --host 0.0.0.0 --port 8000
 
 api_test:
 	sh scripts/local_test.sh
