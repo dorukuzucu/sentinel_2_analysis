@@ -1,5 +1,5 @@
 # **Sentinel 2 Analysis**
-A simple API in Python to search a Sentinel-2 satellite scene and compute the mean value of the raster imagery values
+A simple API in Python to search a Sentinel-2 satellite scene and compute the mean value of the raster imagery values. Data is acquired via [Element 84 Earth Search API](https://www.element84.com/earth-search/)
 
 ## **TL;DR**
 Please follow steps below to install and run the application
