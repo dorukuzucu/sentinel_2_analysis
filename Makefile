@@ -10,5 +10,8 @@ dataset:
 unit_tests:
 	python -m unittest discover tests/unit
 
+local_run:
+	 uvicorn raster_analysis_service.app:app
+
 local_test:
 	sh scripts/local_test.sh
