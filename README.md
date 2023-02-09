@@ -1,15 +1,17 @@
-# Sentinel 2 Analysis
+# **Sentinel 2 Analysis**
 A simple API in Python to search a Sentinel-2 satellite scene and compute the mean value of the raster imagery values
 
-## Usage
+## **Usage**
 
-### Installing requirements to currently active environment
+### **Installing requirements to currently active environment**
 
 ```shell
 make install
 ```
 
-### Downloading the dataset
+### **Downloading the dataset**
+
+#### **Via Makefile**
 
 ```shell
 make dataset
@@ -20,6 +22,8 @@ Following parameters can be passed to make command:
 - SEARCH_URL: Use this to change data search url(default is https://earth-search.aws.element84.com/v0)
 
 Another way to download dataset is to call download script directly. This method enables user and gives access to more parameters
+
+#### **Via Python Script**
 
 ```shell
 python scripts/download_data.py
@@ -35,3 +39,4 @@ Following parameters can be passed to python script:
 | --cloud-cover | An integer for max cloud coverage | 40 |
 | --log-level | Use to set logging level | INFO |
 | --output-dir | A path from project path where dataset will be downloaded | dataset |
+| --date | A date filter to limit results. Should be either a single date or a range | (TODAY - 2 DAYS)/TODAY

@@ -5,6 +5,7 @@ import logging
 import os
 import traceback
 
+from datetime import datetime
 from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List
@@ -17,6 +18,7 @@ from satstac.item import FILENAME_TEMPLATE, Item
 BASE_URL = "https://earth-search.aws.element84.com/v0"
 LOGGER = logging.getLogger("Dataset Downloader")
 PROJECT_PATH = Path(__file__).parents[1]
+TODAY = datetime.today().date()
 
 
 def parse_arguments():
@@ -36,6 +38,9 @@ def parse_arguments():
                         help="Use to set logging level")
     parser.add_argument("--output-dir", type=str, default="dataset",
                         help=" A path from project path where dataset will be downloaded")
+    parser.add_argument("--date", type=str, default=f"{TODAY.replace(day=TODAY.day - 2)}/{TODAY}",
+                        help="A date filter to limit results." +
+                        "Should be either a single date or a range")
     return parser.parse_args()
 
 
@@ -74,6 +79,7 @@ def prepare_search_parameters(arguments) -> Dict[str, Any]:
         search_parameters.update({"intersects": intersection})
     if arguments.limit:
         search_parameters.update({"limit": arguments.limit})
+    search_parameters.update({"datetime": arguments.date})
 
     LOGGER.debug("Search parameters: \n%s", json.dumps(search_parameters, indent=4))
     return search_parameters
@@ -152,8 +158,9 @@ def main():
     LOGGER.info("Configured parameters: \n %s", json.dumps(search_parameters, indent=4))
 
     search = Search(url=BASE_URL, **search_parameters)
-    item_collection: List[Item] = search.items()._items  # Access protected variable to download with Threads.
-                                                         # Default implementation only supports sequential download
+    # Access protected variable to download with Threads.
+    # Default implementation only supports sequential download
+    item_collection: List[Item] = search.items()._items  
     download_items(item_collection, args.output_dir)
 
 
