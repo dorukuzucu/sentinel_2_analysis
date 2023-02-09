@@ -1,15 +1,15 @@
 import logging
 import os
 from fastapi import FastAPI
-from .analyze_service import AnalyzeService
-from .types import AnalysisRequest
+from .service.analyze_service import AnalyzeService
+from .service.types import AnalysisRequest
 
 
 def configure_logging(log_level: str) -> None:
     """Configures module logger
 
     Args:
-        log_level (str): ONe of supported log levels: 
+        log_level (str): One of supported log levels: 
     """
     logging.getLogger('rasterio').propagate = False
 
