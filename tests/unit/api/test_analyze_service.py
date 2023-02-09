@@ -21,7 +21,7 @@ class AnalyzeServiceTest(unittest.TestCase):
         for supported_operation in supported_operations:
             AnalysisType[supported_operation]
 
-    @patch("raster_analysis_service.api.analyze_service.create_tif_dataset")
+    @patch("raster_analysis_service.service.analyze_service.create_tif_dataset")
     def test_analyze(self, mock_create_dataset):
         paths = ["PATH1", "PATH2"]
         mock_create_dataset.return_value = paths
