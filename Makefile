@@ -15,7 +15,7 @@ unit_tests:
 local_run:
 	 uvicorn raster_analysis_service.app:app
 
-local_test:
+api_test:
 	sh scripts/local_test.sh
 
 docker:
