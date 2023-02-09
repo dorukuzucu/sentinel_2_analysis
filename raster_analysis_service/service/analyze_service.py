@@ -1,10 +1,6 @@
-import concurrent.futures
 import logging
 
-from typing import Iterable
-
 from raster_analysis_service.image.analysis import Analysis, AnalysisType, get_analysis
-from raster_analysis_service.image.types import RasterImage
 from raster_analysis_service.service.analysis_executor import ExecutorBase, get_executor_type
 from raster_analysis_service.utils.constants import ABSOLUTE_DATASET_PATH
 from raster_analysis_service.utils.file_io import Globber
@@ -32,6 +28,6 @@ class AnalyzeService:
         analysis: Analysis = get_analysis(analysis_name)()
         dataset = create_tif_dataset()
 
-        executor = get_executor_type()(analysis, dataset)
+        executor: ExecutorBase = get_executor_type()(analysis, dataset)
         executor.execute()
         return analysis.result()

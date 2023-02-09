@@ -43,7 +43,7 @@ class MeanValueAnalysis(Analysis):
         self.average_mean = manager.Value(ctypes.c_double, 0.0)
 
     def add(self, raster_image: RasterImage) -> None:
-        image_array = raster_image.array() 
+        image_array = raster_image.array()
 
         image_pixel_count = np.prod(image_array.shape)
         image_sum = image_array.sum()
@@ -85,4 +85,3 @@ def get_analysis(analysis_type: Union[str, AnalysisType]):
             LOGGER.error(message)
             raise ValueError(message) from error
     return _ANALYSIS_TYPE_TO_CLASS[analysis_type]
- 

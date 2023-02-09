@@ -23,7 +23,7 @@ class Globber:
         """
         if extension.startswith("."):
             extension = extension[1:]
-        if not extension in self._extensions:
+        if extension not in self._extensions:
             self._extensions.append(extension)
 
     def add_includes(self, inclusion: str) -> None:
@@ -35,7 +35,7 @@ class Globber:
         """Creates chain of iterators for globbing
 
         Args:
-            recursive (bool, optional): If True, subdirectories will be included in search. 
+            recursive (bool, optional): If True, subdirectories will be included in search.
                 Defaults to True.
 
         Returns:
@@ -61,7 +61,7 @@ class Globber:
         return glob.iglob(search_string, recursive=recursive)
 
     def _build_search_string(self, extension: str, recursive: bool) -> str:
-        """Build and returns a search string for given extension 
+        """Build and returns a search string for given extension
         """
         search_string = self._starting_directory + "/"
         if recursive:

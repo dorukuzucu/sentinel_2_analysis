@@ -9,7 +9,7 @@ def configure_logging(log_level: str) -> None:
     """Configures module logger
 
     Args:
-        log_level (str): One of supported log levels: 
+        log_level (str): One of supported log levels
     """
     logging.getLogger('rasterio').propagate = False
 
@@ -20,7 +20,6 @@ def configure_logging(log_level: str) -> None:
 configure_logging(os.environ.get("LOG_LEVEL", "DEBUG"))
 LOGGER = logging.getLogger("Service")
 app = FastAPI()
-
 
 
 @app.post("/analyze")
