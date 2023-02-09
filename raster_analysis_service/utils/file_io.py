@@ -7,11 +7,13 @@ class Globber:
     """A class to create glob based on one or multiple extensions
     """
     _extensions: List[str]
+    _includes: str
     _starting_directory: str
 
     def __init__(self, starting_directory) -> None:
         self._starting_directory = starting_directory
         self._extensions = []
+        self._includes = None
 
     def add_extension(self, extension: str):
         """Add given extension to glob list
@@ -23,6 +25,11 @@ class Globber:
             extension = extension[1:]
         if not extension in self._extensions:
             self._extensions.append(extension)
+
+    def add_includes(self, inclusion: str) -> None:
+        if not inclusion.isalpha():
+            raise ValueError("Only letters are supported")
+        self._includes = inclusion
 
     def create(self, recursive: bool = True) -> Iterator:
         """Creates chain of iterators for globbing
@@ -38,7 +45,7 @@ class Globber:
         for extension in self._extensions:
             glob_iterator = self._create_for_extension(extension, recursive)
             globbers.append(glob_iterator)
-        return chain(globbers)
+        return chain.from_iterable(globbers)
 
     def _create_for_extension(self, extension: str, recursive: bool):
         """Creates a single iterator for a single file type
@@ -56,8 +63,10 @@ class Globber:
     def _build_search_string(self, extension: str, recursive: bool) -> str:
         """Build and returns a search string for given extension 
         """
-        search_string = self._starting_directory
+        search_string = self._starting_directory + "/"
         if recursive:
-            search_string = search_string + "/**"
-        search_string += f"/*.{extension}"
+            search_string = search_string + "**/"
+        if self._includes:
+            search_string += "*" + self._includes + "*"
+        search_string += f"*.{extension}"
         return search_string

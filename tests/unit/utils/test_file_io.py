@@ -7,6 +7,7 @@ from raster_analysis_service.utils.file_io import Globber
 
 EXT_TIF = "tif"
 EXT_TIF_WITH_POINT = ".tif"
+INCLUDE = "INC"
 TEST_START_DIR = "START_DIR"
 
 
@@ -54,7 +55,7 @@ class GlobberCreateTest(GlobberTestBase):
 
         search_string = f"{TEST_START_DIR}/**/*.{EXT_TIF}"
         mock_glob.iglob.assert_called_once_with(search_string, recursive=True)
-        mock_chain.assert_called_once_with([mock_glob.iglob.return_value])
+        mock_chain.from_iterable.assert_called_once_with([mock_glob.iglob.return_value])
 
     @patch("raster_analysis_service.utils.file_io.glob")
     @patch("raster_analysis_service.utils.file_io.chain")
@@ -64,4 +65,19 @@ class GlobberCreateTest(GlobberTestBase):
 
         search_string = f"{TEST_START_DIR}/*.{EXT_TIF}"
         mock_glob.iglob.assert_called_once_with(search_string, recursive=False)
-        mock_chain.assert_called_once_with([mock_glob.iglob.return_value])
+        mock_chain.from_iterable.assert_called_once_with([mock_glob.iglob.return_value])
+
+    @patch("raster_analysis_service.utils.file_io.glob")
+    @patch("raster_analysis_service.utils.file_io.chain")
+    def test_create_with_inclusion(self, mock_chain: Mock, mock_glob: Mock):
+        self.globber.add_extension(EXT_TIF)
+        self.globber.add_includes(INCLUDE)
+        self.globber.create()
+
+        search_string = f"{TEST_START_DIR}/**/*{INCLUDE}**.{EXT_TIF}"
+        mock_glob.iglob.assert_called_once_with(search_string, recursive=True)
+        mock_chain.from_iterable.assert_called_once_with([mock_glob.iglob.return_value])
+
+    def test_add_inclusion_raises(self):
+        with self.assertRaises(ValueError):
+            self.globber.add_includes(INCLUDE + "-")
