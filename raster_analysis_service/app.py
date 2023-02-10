@@ -1,6 +1,7 @@
+import functools
 import logging
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from .service.analyze_service import AnalyzeService
 from .service.types import AnalysisRequest
 
@@ -22,15 +23,31 @@ LOGGER = logging.getLogger("Service")
 app = FastAPI()
 
 
+def with_general_exception_handling(func):
+    """To handle unexpected exceptions during a request execution"""
+    @functools.wraps(func)
+    async def wrapped(*args, **kwargs):
+        try:
+            return await func(*args, **kwargs)
+        except Exception as exception:
+            LOGGER.exception(exception)
+            raise HTTPException(status_code=500, detail="An unknown error has occured.")
+    return wrapped
+
+
 @app.post("/analyze")
+@with_general_exception_handling
 async def dataset_mean_value(request: AnalysisRequest):
     """Calculate mean value for images"""
+    LOGGER.info("Received Request: %s", request)
     service = AnalyzeService()
     result = service.analyze(request.name)
+    LOGGER.info("Response: {%.2f}", result)
     return result
 
 
 @app.get("/operations")
+@with_general_exception_handling
 async def supported_operations():
     """List Supported Operations"""
     service = AnalyzeService()
