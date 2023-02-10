@@ -33,7 +33,7 @@ class Analysis(ABC):
 
 
 class MeanValueAnalysis(Analysis):
-    """A class to calculate running mean of all pixel values within an image
+    """A class to calculate mean of all pixel values within an image
     """
     pixel_count: manager.Value
     average_mean: manager.Value
